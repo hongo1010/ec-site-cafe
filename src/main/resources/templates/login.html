@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!--Import Google Icon Font-->
     <link
@@ -16,21 +16,21 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/register_admin.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/item_list.css" />
-    <link rel="stylesheet" href="css/item_detail.css" />
-    <link rel="stylesheet" href="css/cart_list.css" />
-    <link rel="stylesheet" href="css/order_confirm.css" />
-    <link rel="stylesheet" href="css/order_finished.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
+    <title>らくらくcafe</title>
   </head>
 
   <body>
@@ -53,17 +53,17 @@
         </div>
       </div>
     </header>
-    <div class="top-wrapper">
+  <div class="top-wrapper">
       <div class="container">
         <div class="row login-page">
           <div class="col s12 z-depth-6 card-panel">
-            <div class="error">エラーメッセージ</div>
-            <form class="login-form" action="employeeList.html">
+            <div class="error" th:text="${errorMessage}" style="color:red">エラーメッセージ</div>
+            <form class="login-form"  th:action="@{/loginUser/login}" method="post">
               <div class="row"></div>
               <div class="row">
                 <div class="input-field col s12">
                   <i class="material-icons prefix">mail_outline</i>
-                  <input class="validate" id="mailAddress" type="email" />
+                  <input class="validate" id="mailAddress" type="email" name="email" />
                   <label
                     for="mailAddress"
                     data-error="wrong"
@@ -75,15 +75,14 @@
               <div class="row">
                 <div class="input-field col s12">
                   <i class="material-icons prefix">lock_outline</i>
-                  <input id="password" type="password" />
+                  <input id="password" type="password" name="password" />
                   <label for="password">パスワード</label>
                 </div>
               </div>
               <div class="row login-btn">
                 <button
                   class="btn"
-                  type="button"
-                  onclick="location.href='item_list.html'"
+                  type="submit"
                 >
                   <span>ログイン</span>
                 </button>
@@ -104,7 +103,7 @@
     <footer>
       <div class="container">
         <img src="img/header_logo.png" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->

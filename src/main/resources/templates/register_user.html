@@ -52,55 +52,57 @@
         </div>
       </div>
     </header>
-    <div class="top-wrapper">
+  <div class="top-wrapper">
       <div class="container">
         <div class="row register-page">
-          <div class="error">名前を入力して下さい</div>
+        <form th:action="@{/insertUser/insert}" th:object="${insertUserForm}" method="post">
+          <div class="error" th:errors="*{lastName}" >姓を入力して下さい</div>
+          <div class="error" th:errors="*{firstName}" >名を入力して下さい</div>
           
           <div class="row">
             <div class="input-field col s6">
-              <input id="last_name" type="text" class="validate" required />
+              <input id="last_name" type="text" class="validate" th:field="*{lastName}"  />
               <label for="last_name">姓</label>
             </div>
             <div class="input-field col s6">
-              <input id="first_name" type="text" class="validate" required />
+              <input id="first_name" type="text" class="validate"  th:field="*{firstName}"  />
               <label for="first_name">名</label>
             </div>
           </div>
-          <div class="error">メールアドレスの形式が不正です</div>
+          <div class="error" th:errors="*{email}">メールアドレスの形式が不正です</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" class="validate" required />
+              <input id="email" type="email" class="validate" th:field="*{email}"  />
               <label for="email">メールアドレス</label>
             </div>
           </div>
-          <div class="error">郵便番号はXXX-XXXXの形式で入力してください</div>
+          <div class="error" th:errors="*{zipcode}">郵便番号はXXX-XXXXの形式で入力してください</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="zipcode" type="text" maxlength="8" />
+              <input id="zipcode" type="text" maxlength="8" th:field="*{zipcode}" />
               <label for="zipcode">郵便番号</label>
               <button class="btn" type="button">
                 <span>住所検索</span>
               </button>
             </div>
           </div>
-          <div class="error">住所を入力して下さい</div>
+          <div class="error" th:errors="*{address}">住所を入力して下さい</div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="address" type="text" />
+              <input id="address" type="text"  th:field="*{address}"/>
               <label for="address">住所</label>
             </div>
           </div>
-          <div class="error">
+          <div class="error" th:errors="*{telephone}">
             電話番号はXXXX-XXXX-XXXXの形式で入力してください
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="tel" type="tel" />
+              <input id="tel" type="tel"  th:field="*{telephone}"/>
               <label for="tel">電話番号</label>
             </div>
           </div>
-          <div class="error">
+          <div class="error" th:errors="*{password}">
             パスワードは８文字以上１６文字以内で設定してください
           </div>
           <div class="row">
@@ -110,12 +112,13 @@
                 type="password"
                 class="validate"
                 minlength="8"
-                required
+                th:field="*{password}"
+                
               />
-              <label for="password">パスワード</label>
+              <label for="password" >パスワード</label>
             </div>
           </div>
-          <div class="error">パスワードと確認用パスワードが不一致です</div>
+          <div class="error" th:errors="*{confimationPassword}">パスワードと確認用パスワードが不一致です</div>
           <div class="row">
             <div class="input-field col s12">
               <input
@@ -123,7 +126,8 @@
                 type="password"
                 class="validate"
                 minlength="8"
-                required
+                th:field="*{confimationPassword}"
+                
               />
               <label for="confirmation_password">確認用パスワード</label>
             </div>
@@ -136,6 +140,7 @@
               <span>登録<i class="material-icons right">done</i></span>
             </button>
           </div>
+          </form>
           <!-- form end -->
         </div>
       </div>
@@ -145,7 +150,7 @@
     <footer>
       <div class="container">
         <img src="img/header_logo.png" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->
