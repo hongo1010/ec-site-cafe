@@ -14,7 +14,7 @@ import com.example.domain.Item;
 /**
  * 商品情報を操作するリポジトリ.
  * 
- * @author inagakisaia
+ * @author hongo
  *
  */
 @Repository

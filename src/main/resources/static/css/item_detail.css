@@ -39,7 +39,7 @@
 
 /* サイズをオレンジ〇で囲む */
 .price {
-  background-color: #ff4500;
+  background-color: rgb(128, 255, 255);
   border-radius: 50%; /* 角丸にする設定 */
   color: black;
 }
