@@ -110,7 +110,6 @@ drop table if exists order_toppings cascade;
 
 create table order_toppings (
   id serial primary key
-  , base_id integer not null
   , topping_id integer not null
   , order_item_id integer not null
   , FOREIGN KEY (order_item_id) REFERENCES order_items (id) on delete cascade

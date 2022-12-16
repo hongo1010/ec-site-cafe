@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!--Import Google Icon Font-->
     <link
@@ -16,41 +16,44 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/register_admin.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/item_list.css" />
-    <link rel="stylesheet" href="css/item_detail.css" />
-    <link rel="stylesheet" href="css/cart_list.css" />
-    <link rel="stylesheet" href="css/order_confirm.css" />
-    <link rel="stylesheet" href="css/order_finished.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/register_admin.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/item_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart_list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_confirm.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_finished.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
+    <title>らくらくcafe</title>
   </head>
   <body>
     <header>
       <div class="container">
         <div class="header">
           <div class="header-left">
-            <a href="top.html">
-              <img class="logo" src="img/header_logo.png" />
+             <a th:href="@{/}">
+					   <img class="logo" th:src="@{/img/header_logo.png}" />
             </a>
           </div>
 
           <div class="header-right">
-            <a href="item_list.html">商品一覧</a>
-            <a href="register_admin.html">会員登録</a>
-            <a href="#"><i class="fas fa-shopping-cart"></i>カート</a>
-            <a href="login.html" class="login">
-              <i class="fas fa-sign-in-alt"></i>ログイン
-            </a>
-
-            <a href="order_history.html">注文履歴</a>
+            <a  th:href="@{/showItemList/ItemList}">商品一覧</a>
+            <span th:unless="${session.user}">
+            <a th:href="@{/insertUser/toInsert}" >会員登録</a></span>
+             <a th:href="@{/cart/showCart}"><i class="fas fa-shopping-cart"></i>カート  <span th:text="${session.orderItemCount}"></span></a>
+            <span th:unless="${session.user}">
+            <a th:href="@{/loginUser/toLogin}" class="login"><i class="fas fa-sign-in-alt"></i>ログイン</a> 
+			</span>
+			<span th:if="${session.user}"> <a th:href="@{/logoutUser/logout}">ログアウト</a>
+            </span>
+             <a th:href="@{/orderHistory/}">注文履歴</a>
+			<span th:if="${session.user}" th:text="${session.user.name} + 'さんこんにちは'">山田太郎</span>
           </div>
         </div>
       </div>
@@ -59,6 +62,8 @@
       <div class="container">
         <h1 class="page-title">ショッピングカート</h1>
         <!-- table -->
+        <div th:if="${order == null}" th:text="${NoOrder}"></div>
+        <div th:unless="${order == null}">
         <div class="row">
           <table class="striped">
             <thead>
@@ -70,79 +75,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr  th:each="orderItem : ${order.orderItemList}" >
                 <td class="cart-item-name">
                   <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
+                    <img src="img/1.jpg" th:src="@{/img/}+${orderItem.item.imagePath}"/>
                   </div>
-                  <span>ハワイアンパラダイス</span>
+                  <span th:text="${orderItem.item.name}">ハワイアンパラダイス</span>
                 </td>
-                <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
+                 <td>
+                  <span class="price" th:text="${'&nbsp;'+orderItem.size}" >&nbsp;Ｌ</span >
+                  <span th:if="${orderItem.size.compareTo('M') == 0}" th:text="${'&nbsp;&nbsp;'+orderItem.item.priceM+'円'}" >&nbsp;&nbsp;2,380円</span>
+                  <span th:if="${orderItem.size.compareTo('L') == 0}" th:text="${'&nbsp;&nbsp;'+orderItem.item.priceL+'円'}" ></span>
+                  <span th:text="${'&nbsp;&nbsp;'+orderItem.quantity+'個'}">&nbsp;&nbsp;1個</span>
                 </td>
                 <td>
                   <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
+                    <li th:if="${orderItem.size.compareTo('M') == 0}" th:each="orderTopping : ${orderItem.orderToppingList}" 
+                    th:text="${orderTopping.topping.name+' 200円'}" >
+                    </li>
+                    <li th:if="${orderItem.size.compareTo('L') == 0}" th:each="orderTopping : ${orderItem.orderToppingList}" 
+                    th:text="${orderTopping.topping.name+' 300円'}" >
+                    </li>
                   </ul>
                 </td>
-                <td><div class="text-center">3,280円</div></td>
+                <td><div class="text-center" th:text="'小計　'+${#numbers.formatInteger(orderItem.getSubTotal,1,'COMMA')}+' 円'">3,280円</div></td>
                 <td>
-                  <button class="btn" type="button">
+                <form th:action="@{/cart/deleteOrderItem}" method="post">
+                  <button class="btn" type="submit">
                     <span>削除</span>
                   </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="cart-item-name">
-                  <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
-                  </div>
-                  <span>ハワイアンパラダイス</span>
-                </td>
-                <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
-                </td>
-                <td>
-                  <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
-                  </ul>
-                </td>
-                <td><div class="text-center">3,280円</div></td>
-                <td>
-                  <button class="btn" type="button">
-                    <span>削除</span>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="cart-item-name">
-                  <div class="cart-item-icon">
-                    <img src="img/1.jpg" />
-                  </div>
-                  <span>ハワイアンパラダイス</span>
-                </td>
-                <td>
-                  <span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-                  &nbsp;&nbsp;1個
-                </td>
-                <td>
-                  <ul>
-                    <li>ピーマン300円</li>
-                    <li>オニオン300円</li>
-                    <li>あらびきソーセージ300円</li>
-                  </ul>
-                </td>
-                <td><div class="text-center">3,280円</div></td>
-                <td>
-                  <button class="btn" type="button">
-                    <span>削除</span>
-                  </button>
+                    <input type="hidden" name="orderItemId" th:value="${orderItem.id}"/>
+                    <input type="hidden" name="toOrderConfirm" value="toCartList">
+                </form>
                 </td>
               </tr>
             </tbody>
@@ -150,26 +114,26 @@
         </div>
 
         <div class="row cart-total-price">
-          <div>消費税：8,000円</div>
-          <div>ご注文金額合計：38,000円 (税込)</div>
+          <div th:text="'消費税 '+${#numbers.formatInteger(order.getTax,1,'COMMA')}+' 円'">消費税：8,000円</div>
+          <div th:text="'ご注文合計金額 '+${#numbers.formatInteger(order.getCalcTotalPrice,1,'COMMA')}+' 円'">ご注文金額合計：38,000円 (税込)</div>
         </div>
         <div class="row order-confirm-btn">
+        <form th:action="@{/order/toOrder}">
           <button
             class="btn"
-            type="button"
-            onclick="location.href='order_confirm.html'"
           >
             <span>注文に進む</span>
-          </button>
+          </button></form>
         </div>
       </div>
       <!-- end container -->
     </div>
+        </div>
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
-        <img src="img/header_logo.png" />
-        <p>アロハな気分をあなたにお届け！</p>
+        <img src="img/header_logo.png" th:src="@{/img/header_logo.png}" />
+        <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>
     <!-- Compiled and minified JavaScript -->
