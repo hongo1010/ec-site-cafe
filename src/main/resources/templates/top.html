@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ラクラクアロハ</title>
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/top.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <title>らくらくcafe</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/top.css}" />
+    <link rel="stylesheet" th:href="@{/css/responsive.css}" />
     <link
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       rel="stylesheet"
@@ -20,7 +20,7 @@
         <div class="header">
           <div class="header-left">
             <a href="top.html">
-              <img class="logo" src="img/header_logo.png" />
+              <img class="logo" th:src="@{/img/header_logo.png}" />
             </a>
           </div>
 
@@ -45,19 +45,22 @@
 
     <div class="top-wrapper">
       <div class="container">
-        <h1>DELIVERING THE FEELINGS OF ALOHA TO YOU</h1>
-        <p>日本にいながらアロハな気分をあなたにお届け！</p>
+        <h1>A cafe where you can take a break at home!</h1>
+        <p>ホッと一息つけるカフェをご自宅で！</p>
         <p>
-          ラクラクアロハは自宅にハワイアン料理がデリバリーで届くハワイアンECサイトです。
+          らくらくCafeはご自宅からカフェメニューがデリバリーできるECサイトです。
         </p>
         <div class="btn-wrapper">
           <a href="register_admin.html" class="btn signup">会員登録</a>
           <p>or</p>
-          <a href="#" class="btn facebook"
+          <a href="https://ja-jp.facebook.com/"  class="btn facebook" 
             ><i class="fab fa-facebook"></i>Facebookで登録</a
           >
-          <a href="#" class="btn twitter"
+          <a href="https://twitter.com/i/flow/login" class="btn twitter"
             ><i class="fab fa-twitter"></i>Twitterで登録</a
+          >
+          <a href="https://www.instagram.com/accounts/login/" class="btn instagram"
+            ><i class="fab fa-instagram"></i>Instagramで登録</a
           >
         </div>
       </div>
@@ -66,43 +69,44 @@
     <div class="top-item-wrapper">
       <div class="container">
         <div class="heading">
-          <h2>ラクラクアロハ、４つの特徴！</h2>
+          <h2>らくらくcafe、４つの特徴！</h2>
         </div>
         <div class="top-items">
           <div class="top-item">
             <div class="top-item-icon">
-              <img src="img/1.jpg" />
-              <p>ハワイアン料理</p>
+              <img th:src="@{/img/13.jpg}" />
+              <p>こだわりのコーヒー</p>
             </div>
             <p class="text-contents">
-              アロハテーブルやウルフギャング、田中オブ東京などのハワイの有名店で修行を積んだ一流シェフによる本格的なハワイアン料理が家にいてもお手軽に楽しむことができます。
+              店内で焙煎した豆を使い、豆に合わせた抽出法でバリスタが淹れる本格派コーヒーがご自宅でを楽しめます！
             </p>
           </div>
           <div class="top-item">
             <div class="top-item-icon">
-              <img src="img/2.jpg" />
-              <p>スイーツも充実</p>
+              <img th:src="@{/img/2.jpg}" />
+              <p>カスタムドリンク</p>
             </div>
             <p class="text-contents">
-              アイランドビンテージコーヒーやボガーツカフェのアサイボウルはもちろんのこと、最近流行りのバナンのソフトクリーム、エッグスンシングスのふわふわパンケーキなど有名店のスイーツも充実しています。
+              らくらくcafeではドリンクに約15種のトッピングがあり、お好きなトッピングの組み合わせてあなただけのドリンクが作れちゃいます♬
             </p>
           </div>
           <div class="top-item">
             <div class="top-item-icon">
-              <img src="img/14.jpg" />
-              <p>アルコールも豊富</p>
+              <img th:src="@{/img/1.jpg}" />
+              <p>スイーツやフードも充実</p>
             </div>
             <p class="text-contents">
-              ハワイといえばビーチでマイタイ！コナブリューイングのハワイアンコナビールなどハワイでしか飲めないアルコールも豊富にあります。
+              ドリンクに合う様に、らくらくcafeオリジナルのレシピから厳選された原材料を使用して店内のキッチンで作られたこだわりのスイーツとフードも魅力です♡
             </p>
           </div>
           <div class="top-item">
             <div class="top-item-icon">
-              <img src="img/13.jpg" />
-              <p>ホテル創作料理</p>
+              <img th:src="@{/img/11.jpg}" />
+              <p>フレッシュな提供</p>
             </div>
             <p class="text-contents">
-              シェラトンワイキキ、ロイヤルハワイアン、モアナサーフライダー、アウラニに入っているレストランの創作料理も「ラクラクアロハ」なら気軽に注文できます。
+              完成した最高のコーヒーを最も美味しい状態でお飲みいただけるよう、必要な量だけをその都度焙煎する方式を取り入れているため、つくりおきの豆は一切使用しておりません！
+              スイーツは毎朝、お料理は注文を頂いてから調理しているため、出来立てのメニューをご自宅でお召し上がりください♪
             </p>
           </div>
         </div>
@@ -112,13 +116,13 @@
     <div class="message-wrapper">
       <div class="container">
         <div class="heading">
-          <h2>さぁ、今すぐALOHAの旅に出よう！</h2>
-          <h3>Let's go on an Aloha trip!</h3>
+          <h2>ホッと一息、自宅でカフェ気分♪</h2>
+          <h3>Take a break, feel like a cafe at home♪</h3>
         </div>
-        <span class="btn message">ALOHAの旅に出る！</span>
+        <span class="btn message">おうちカフェをする♬</span>
       </div>
     </div>
-
+    
     <footer>
       <div class="container">
         <img src="img/header_logo.png" />

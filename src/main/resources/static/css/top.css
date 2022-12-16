@@ -5,7 +5,7 @@
    ======================================== */
 .top-wrapper {
   padding: 180px 0 100px 0; /* 上はヘッダが来るのでその分180px分空ける */
-  background-image: url(../img/hawaii_top.jpeg); /* 背景画像設定 */
+  background-image: url(../img/cafe_top.jpg); /* 背景画像設定 */
   background-size: cover; /*画像の縦横比を崩すことなく、画像ができるだけ大きくなるよう拡大縮小*/
   color: white;
   text-align: center;
@@ -36,11 +36,15 @@
 
 .facebook {
   background-color: #3b5998;
-  margin-right: 10px;
+
 }
 
 .twitter {
   background-color: #55acee;
+}
+
+.instagram {
+  background-color: #e4007f;
 }
 
 .btn {
@@ -56,7 +60,7 @@
   opacity: 1; /* マウスを乗せた時は透明度をなくす 1:不透明 */
 }
 
-/* fontawesome(facebook＆twitterアイコンの設定) */
+/* fontawesome(facebook＆twitter&instagramアイコンの設定) */
 .fab {
   margin-right: 10px;
 }
@@ -96,7 +100,9 @@
   position: absolute; /* item-iconからpを位置指定するための指定 */
   top: 35%;
   width: 100%;
-  color: red;
+  font-weight: bold;
+  text-shadow: 0 0 10px #704d40;
+  color: white;
 }
 
 .top-item-icon img {
@@ -116,9 +122,9 @@
 
 .message {
   padding: 15px 40px;
-  background-color: #5dca88;
+  background-color: #9b6450;
   cursor: pointer; /* a要素のようにマウスの乗せるとa要素のようにポインタが変わる */
-  box-shadow: 1px 5px #1a7940; /* ボタンに影をつける 右1px 下5px */
+  box-shadow: 1px 5px #704d40; /* ボタンに影をつける 右1px 下5px */
 }
 
 /* メッセージクリック時の挙動の設定 */
