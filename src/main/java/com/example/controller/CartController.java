@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,9 +44,9 @@ public class CartController {
 		Integer dummyId = null;
 
 		if (user == null) {
-		dummyId = session.hashCode();
-		 session.setAttribute("dummyId", dummyId);
-		 service.addItem(form, dummyId);
+			dummyId = session.hashCode();
+			session.setAttribute("dummyId", dummyId);
+			service.addItem(form, dummyId);
 		} else {
 			userId = user.getId();
 			service.addItem(form, userId);
@@ -64,29 +66,29 @@ public class CartController {
 		User user = (User) session.getAttribute("user");
 		Integer userId = 0;
 		Order order = null;
-		
+
 		if (user == null) {
-			Integer dummyId = (int)session.getAttribute("dummyId");
+			Integer dummyId = (int) session.getAttribute("dummyId");
 			order = service.showCart(dummyId);
 			session.setAttribute("order", order);
 			session.setAttribute("throughOrderConfirmation", true);
 		} else {
 			userId = user.getId();
-		    order = service.showCart(userId);
+			order = service.showCart(userId);
 			session.setAttribute("order", order);
 		}
-		if (order==null) {
+		if (session.getAttribute("order") == null) {
 			model.addAttribute("NoOrder", "カート内は空です。");
-		} else{
-		
-		if (order.getOrderItemList().size()==0) {
-			model.addAttribute("NoOrder", "カート内は空です。");
-		} else{
-			model.addAttribute("order", order);
-		}
-		//htmlのヘッダーのカードにアイテム数を表示させるためにセットしてます
-		int orderItemCount =  order.getOrderItemList().size();
-		session.setAttribute("orderItemCount", orderItemCount);
+		} else {
+			Order sessionOrder= (Order)session.getAttribute("order");
+			if (sessionOrder.getOrderItemList().size() == 0) {
+				model.addAttribute("NoOrder", "カート内は空です。");
+			} else {
+				model.addAttribute("order", order);
+			}
+			// htmlのヘッダーのカードにアイテム数を表示させるためにセットしてます
+			int orderItemCount = order.getOrderItemList().size();
+			session.setAttribute("orderItemCount", orderItemCount);
 		}
 		return "cart_list";
 	}
@@ -98,10 +100,10 @@ public class CartController {
 	 * @return 削除後のカート一覧画面
 	 */
 	@PostMapping("/deleteOrderItem")
-	public String deleteOrderItem(Integer orderItemId,String toOrderConfirm) {
+	public String deleteOrderItem(Integer orderItemId, String toOrderConfirm) {
 		service.deleteOrderItem(orderItemId);
 		session.removeAttribute("order");
-		if(toOrderConfirm.equals("toOrderConfirm")) {
+		if (toOrderConfirm.equals("toOrderConfirm")) {
 			return "redirect:/order/toOrder";
 		}
 		return "redirect:/cart/showCart";

@@ -111,16 +111,6 @@ public class CartService {
 		orderItemRepository.delete(orderItemId);
 	}
 
-	public Order createDummyOrder(Integer dummuUserId) {
-
-		Order dummyOrderDetail = new Order();
-		dummyOrderDetail.setUserId(dummuUserId);
-		dummyOrderDetail.setStatus(0);
-		dummyOrderDetail.setTotalPrice(0);
-
-		orderRepository.insert(dummyOrderDetail);
-		return dummyOrderDetail;
-	}
 
 	public Order searchDummyOrder(Integer dummyUserId) {
 		Order order = orderRepository.findByUserIdAndStatus(dummyUserId);

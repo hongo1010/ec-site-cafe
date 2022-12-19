@@ -37,22 +37,23 @@
       <div class="container">
         <div class="header">
           <div class="header-left">
-            <a href="top.html">
-              <img class="logo" src="img/header_logo.png" />
+             <a th:href="@{/top/page}">
+              <img class="logo" th:src="@{/img/header_logo.png}" />
             </a>
           </div>
 
           <div class="header-right">
-            <a href="item_list.html">商品一覧</a>
-            <a href="register_admin.html">会員登録</a>
-            <a href="cart_list.html">
-              <i class="fas fa-shopping-cart"> </i>カート
-            </a>
-            <a href="login.html" class="login">
-              <i class="fas fa-sign-in-alt"></i>ログイン
-            </a>
-
-            <a href="order_history.html">注文履歴</a>
+            <a th:href="@{/showItemList/ItemList}" >商品一覧</a>
+            <span th:unless="${session.user}">
+            <a th:href="@{/insertUser/toInsert}" >会員登録</a></span>
+            <a th:href="@{/cart/showCart#}"><i class="fas fa-shopping-cart"></i>カート <span th:text="${session.orderItemCount}"></span></a>
+            <span th:unless="${session.user}">
+            <a th:href="@{/loginUser/toLogin}" class="login"><i class="fas fa-sign-in-alt"></i>ログイン</a> 
+			</span>
+			<span th:if="${session.user}"> <a th:href="@{/logoutUser/logout}">ログアウト</a>
+            </span>
+             <a th:href="@{/orderHistory/}">注文履歴</a>
+			<span th:if="${session.user}" th:text="${session.user.name} + 'さんこんにちは'">山田太郎</span>
           </div>
         </div>
       </div>
@@ -95,7 +96,7 @@
 
     <footer>
       <div class="container">
-        <img src="img/header_logo.png" />
+        <img th:src="@{/img/header_logo.png}" />
         <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>
