@@ -63,6 +63,9 @@
         <h1 class="page-title">注文内容確認</h1>
         <!-- table -->
         <div class="row">
+        <div th:if="${order == null}" th:text="${NoOrder}"></div>
+        <div th:unless="${order == null}">
+        <div class="row">
           <table class="striped">
             <thead>
               <tr>
@@ -73,15 +76,14 @@
               </tr>
             </thead>
             <tbody>
-               <tbody>
-              <tr th:each="orderItem : ${session.order.orderItemList}" >
+              <tr  th:each="orderItem : ${order.orderItemList}" >
                 <td class="cart-item-name">
                   <div class="cart-item-icon">
-                    <img src="img/1.jpg" th:src="@{/img/}+${orderItem.item.imagePath}" />
+                    <img th:src="@{/img/}+${orderItem.item.imagePath}"/>
                   </div>
                   <span th:text="${orderItem.item.name}">ハワイアンパラダイス</span>
                 </td>
-                <td>
+                 <td>
                   <span class="price" th:text="${'&nbsp;'+orderItem.size}" >&nbsp;Ｌ</span >
                   <span th:if="${orderItem.size.compareTo('M') == 0}" th:text="${'&nbsp;&nbsp;'+orderItem.item.priceM+'円'}" >&nbsp;&nbsp;2,380円</span>
                   <span th:if="${orderItem.size.compareTo('L') == 0}" th:text="${'&nbsp;&nbsp;'+orderItem.item.priceL+'円'}" ></span>
@@ -99,16 +101,19 @@
                 </td>
                 <td><div class="text-center" th:text="'小計　'+${#numbers.formatInteger(orderItem.getSubTotal,1,'COMMA')}+' 円'">3,280円</div></td>
                 <td>
-                  <form th:action="@{/cart/deleteOrderItem}" method="post">
+                <form th:action="@{/cart/deleteOrderItem}" method="post">
                   <button class="btn" type="submit">
                     <span>削除</span>
                   </button>
                     <input type="hidden" name="orderItemId" th:value="${orderItem.id}"/>
                     <input type="hidden" name="toOrderConfirm" value="toOrderConfirm">
                 </form>
+                </td>
               </tr>
             </tbody>
           </table>
+        </div>
+        </div>
         </div>
         <div class="row cart-total-price">
           <div th:text="'消費税 '+${#numbers.formatInteger(order.getTax,1,'COMMA')}+' 円'" >消費税：8,000円</div>

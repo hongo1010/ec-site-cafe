@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,22 +64,23 @@ public class CartController {
 		User user = (User) session.getAttribute("user");
 		Integer userId = 0;
 		Order order = null;
+		Integer dummyId = null;
+		dummyId = (Integer) session.getAttribute("dummyId");
 
-		if (user == null) {
-			Integer dummyId = (int) session.getAttribute("dummyId");
+		if (user == null && dummyId!=null) {
 			order = service.showCart(dummyId);
 			session.setAttribute("order", order);
 			session.setAttribute("throughOrderConfirmation", true);
-		} else {
+		} else if(user != null) {
 			userId = user.getId();
 			order = service.showCart(userId);
 			session.setAttribute("order", order);
 		}
-		if (session.getAttribute("order") == null) {
+		if (order == null) {
 			model.addAttribute("NoOrder", "カート内は空です。");
 		} else {
-			Order sessionOrder= (Order)session.getAttribute("order");
-			if (sessionOrder.getOrderItemList().size() == 0) {
+
+			if (order.getOrderItemList().size() == 0) {
 				model.addAttribute("NoOrder", "カート内は空です。");
 			} else {
 				model.addAttribute("order", order);

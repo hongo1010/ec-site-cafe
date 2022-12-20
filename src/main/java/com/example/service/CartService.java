@@ -112,9 +112,8 @@ public class CartService {
 	}
 
 
-	public Order searchDummyOrder(Integer dummyUserId) {
-		Order order = orderRepository.findByUserIdAndStatus(dummyUserId);
-		System.out.println("SearchDummyOrderメソッド内のorder = " + order);
+	public Order searchOrder(Integer userId) {
+		Order order = orderRepository.findByUserIdAndStatus(userId);
 		return order;
 	}
 
