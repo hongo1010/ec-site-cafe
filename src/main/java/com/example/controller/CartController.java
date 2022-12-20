@@ -85,9 +85,6 @@ public class CartController {
 			} else {
 				model.addAttribute("order", order);
 			}
-			// htmlのヘッダーのカードにアイテム数を表示させるためにセットしてます
-			int orderItemCount = order.getOrderItemList().size();
-			session.setAttribute("orderItemCount", orderItemCount);
 		}
 		return "cart_list";
 	}

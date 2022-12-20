@@ -46,7 +46,7 @@
             <a th:href="@{/showItemList/ItemList}" >商品一覧</a>
             <span th:unless="${session.user}">
             <a th:href="@{/insertUser/toInsert}" >会員登録</a></span>
-            <a th:href="@{/cart/showCart#}"><i class="fas fa-shopping-cart"></i>カート <span th:text="${session.orderItemCount}"></span></a>
+            <a th:href="@{/cart/showCart#}"><i class="fas fa-shopping-cart"></i>カート</a>
             <span th:unless="${session.user}">
             <a th:href="@{/loginUser/toLogin}" class="login"><i class="fas fa-sign-in-alt"></i>ログイン</a> 
 			</span>
