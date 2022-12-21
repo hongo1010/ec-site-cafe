@@ -86,7 +86,7 @@
               <div class="row">
                 <div class="input-field col s6 m6 l6">
                   <p class="margin medium-small">
-                    <a href="register_admin.html">ユーザー登録はこちら</a>
+                  <a th:href="@{/insertUser/toInsert}" >ユーザー登録はこちら</a>
                   </p>
                 </div>
               </div>
@@ -98,7 +98,7 @@
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
-        <img src="img/header_logo.png" />
+           <img th:src="@{/img/header_logo.png}" />
         <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>

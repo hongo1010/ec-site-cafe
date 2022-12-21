@@ -66,35 +66,44 @@ public class LoginUserController {
 
 		// もし、未ログイン時にカートに商品をいれてisThroughOrderConfirmationがあった場合、未ログインのカートの中身をログイン後のカートの中身に移動し、オーダー画面へ遷移する
 		if (isThroughOrderConfirmation != null) {
-			int dummyId = (int) session.getAttribute("dummyId");
+			session.removeAttribute("throughOrderConfirmation");
+			Integer dummyId = (Integer) session.getAttribute("dummyId");
+			if (dummyId != null) {
 
-			// dummyIDから未ログイン時のオーダー情報を取ってくる
-			Order dummyOrder = cartService.searchOrder(dummyId);
-			Integer dummyOrderId = dummyOrder.getId();
-			List<OrderItem> dummyOrderItemList = cartService.getOrderItemListByOrderId(dummyOrderId);
+				// dummyIDから未ログイン時のオーダー情報を取ってくる
+				Order dummyOrder = cartService.searchOrder(dummyId);
+				Integer dummyOrderId = dummyOrder.getId();
+				List<OrderItem> dummyOrderItemList = cartService.getOrderItemListByOrderId(dummyOrderId);
+			
+				session.removeAttribute("order");
+				model.addAttribute("order", dummyOrder);
+				session.setAttribute("order", dummyOrder);
 
-			// ログイン後のオーダー情報を取ってくる
-			Order trueOrder = cartService.searchOrder(user.getId());
+				// ログイン後のオーダー情報を取ってくる
+				Order trueOrder = cartService.searchOrder(user.getId());
 
-			// ログイン後のオーダーが空じゃなかった場合
-			if (trueOrder != null) {
-				// 未ログイン時のオーダー情報のオーダーIDをログイン後のオーダーIDに更新する（つまりログイン後のオーダーに追加される）
-				Order transferdOrder = cartService.transferItemList(trueOrder, dummyOrderItemList);
-				cartService.update(transferdOrder);
+				// ログイン後のオーダーが空じゃなかった場合
+				if (trueOrder != null) {
+					// 未ログイン時のオーダー情報のオーダーIDをログイン後のオーダーIDに更新する（つまりログイン後のオーダーに追加される）
+					Order transferdOrder = cartService.transferItemList(trueOrder, dummyOrderItemList);
+					cartService.update(transferdOrder);
 
-				// 新しいオーダー情報をセット
-				session.setAttribute("order", transferdOrder);
-				session.removeAttribute("throughOrderConfirmation");
+					// 新しいオーダー情報をセット
+					session.removeAttribute("order");
+					model.addAttribute("order", transferdOrder);
+					session.setAttribute("order", transferdOrder);
 
-			} else {
+				}else {
+					session.removeAttribute("order");
+					model.addAttribute("order", null);
+					session.setAttribute("order", null);
+				}
 
+				// 未ログイン時に登録されていたオーダー情報を一度削除
+				session.removeAttribute("dummyOrder");
+				session.removeAttribute("dummyId");
+				return "redirect:/order/toOrder";
 			}
-
-			// 未ログイン時に登録されていたオーダー情報を一度削除
-			session.removeAttribute("dummyOrder");
-
-			session.removeAttribute("dummyId");
-			return "redirect:/order/toOrder";
 		}
 
 		// 未ログインで何もせずログインを行った場合は商品一覧画面に遷移

@@ -202,7 +202,6 @@ public class OrderRepository {
 	 * @param order Order
 	 */
 	public void insert(Order order) {
-		System.out.println("OrderRepository#insertよばれた");
 
 		String sql = "INSERT INTO orders(user_id,status,total_price) VALUES(:userId, 0, :totalPrice);";
 
