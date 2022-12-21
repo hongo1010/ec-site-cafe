@@ -74,10 +74,6 @@ public class LoginUserController {
 				Order dummyOrder = cartService.searchOrder(dummyId);
 				Integer dummyOrderId = dummyOrder.getId();
 				List<OrderItem> dummyOrderItemList = cartService.getOrderItemListByOrderId(dummyOrderId);
-			
-				session.removeAttribute("order");
-				model.addAttribute("order", dummyOrder);
-				session.setAttribute("order", dummyOrder);
 
 				// ログイン後のオーダー情報を取ってくる
 				Order trueOrder = cartService.searchOrder(user.getId());
@@ -92,22 +88,29 @@ public class LoginUserController {
 					session.removeAttribute("order");
 					model.addAttribute("order", transferdOrder);
 					session.setAttribute("order", transferdOrder);
-
-				}else {
+				} else {
 					session.removeAttribute("order");
-					model.addAttribute("order", null);
-					session.setAttribute("order", null);
+					cartService.insert(user.getId());
+					Order trueOrder2 = cartService.searchOrder(user.getId());
+					Order transferdOrder = cartService.transferItemList(trueOrder2, dummyOrderItemList);
+					cartService.update(transferdOrder);
+
+					// 新しいオーダー情報をセット
+					session.removeAttribute("order");
+					model.addAttribute("order", transferdOrder);
+					session.setAttribute("order", transferdOrder);
+
 				}
 
 				// 未ログイン時に登録されていたオーダー情報を一度削除
 				session.removeAttribute("dummyOrder");
 				session.removeAttribute("dummyId");
-				return "redirect:/order/toOrder";
+				return "redirect:/cart/showCart";
 			}
 		}
 
 		// 未ログインで何もせずログインを行った場合は商品一覧画面に遷移
 		return "redirect:/showItemList/ItemList";
-
 	}
+
 }

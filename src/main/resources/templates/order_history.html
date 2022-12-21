@@ -30,40 +30,43 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>らくらくcafe</title>
+    <title>らくらくcoffee</title>
   </head>
   <body>
     <header>
       <div class="container">
         <div class="header">
           <div class="header-left">
-             <a th:href="@{/top/page}">
-              <img class="logo" th:src="@{/img/header_logo.png}" />
+             <a th:href="@{/}">
+					   <img class="logo" th:src="@{/img/header_logo.png}" />
             </a>
           </div>
 
           <div class="header-right">
-            <a th:href="@{/showItemList/ItemList}" >商品一覧</a>
-            <span th:unless="${session.user}">
-            <a th:href="@{/insertUser/toInsert}" >会員登録</a></span>
-            <a th:href="@{/cart/showCart#}"><i class="fas fa-shopping-cart"></i>カート</a>    
+            <a th:href="@{/}">商品一覧</a>
+            <a  th:href="@{/insertUser/toInsert}" >会員登録</a>
+            <a th:href="@{/cart/showCart#}"><i class="fas fa-shopping-cart"></i>カート <span th:text="${session.orderItemCount}"></span></a>
             <span th:unless="${session.user}">
             <a th:href="@{/loginUser/toLogin}" class="login"><i class="fas fa-sign-in-alt"></i>ログイン</a> 
 			</span>
 			<span th:if="${session.user}"> <a th:href="@{/logoutUser/logout}">ログアウト</a>
             </span>
-			<span th:if="${session.user}" th:text="${session.user.name} + 'さんこんにちは'">山田太郎</span>
+			<span th:if="${session.userName}" th:text="${session.userName} + 'さんこんにちは'">山田太郎</span>
           </div>
         </div>
       </div>
     </header>
     <div class="top-wrapper">
       <div class="container">
-        <h1 class="page-title">ショッピングカート</h1>
+        <h1 class="page-title">注文履歴</h1>
         <!-- table -->
-        <div th:if="${order == null}" th:text="${NoOrder}"></div>
-        <div th:unless="${order == null}">
-        <div class="row">
+        <hr th:if="${orderListOne}!=null">
+        <div th:if="${orderListOne}!=null" style="font-size:20px; background-color:rgb(223,235,232);" class="container">未入金</div>
+                <div class="row" th:if="${orderListOne}" th:each="order:${orderListOne}" >
+                
+        <hr>
+ 		<div th:text="${'注文日：'+order.orderDate}"></div>
+        <div th:text="'ご注文合計金額：'+${#numbers.formatInteger(order.getCalcTotalPrice,1,'COMMA')}+' 円'">ご注文金額合計：38,000円 (税込)</div>
           <table class="striped">
             <thead>
               <tr>
@@ -99,39 +102,23 @@
                 </td>
                 <td><div class="text-center" th:text="'小計　'+${#numbers.formatInteger(orderItem.getSubTotal,1,'COMMA')}+' 円'">3,280円</div></td>
                 <td>
-                <form th:action="@{/cart/deleteOrderItem}" method="post">
+                <form th:action="@{/cart/showCart}" method="post">
                   <button class="btn" type="submit">
-                    <span>削除</span>
+                    <span>もう一度購入</span>
                   </button>
-                    <input type="hidden" name="orderItemId" th:value="${orderItem.id}"/>
-                    <input type="hidden" name="toOrderConfirm" value="toCartList">
+                    <input type="hidden" name="itemId" th:value="${orderItem.itemId}"/>
                 </form>
                 </td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="row cart-total-price">
-          <div th:text="'消費税 '+${#numbers.formatInteger(order.getTax,1,'COMMA')}+' 円'">消費税：8,000円</div>
-          <div th:text="'ご注文合計金額 '+${#numbers.formatInteger(order.getCalcTotalPrice,1,'COMMA')}+' 円'">ご注文金額合計：38,000円 (税込)</div>
-        </div>
-        <div class="row order-confirm-btn">
-        <form th:action="@{/order/toOrder}">
-          <button
-            class="btn"
-          >
-            <span>注文に進む</span>
-          </button></form>
+   </table>
         </div>
       </div>
       <!-- end container -->
     </div>
-        </div>
     <!-- end top-wrapper -->
     <footer>
       <div class="container">
-        <img th:src="@{/img/header_logo.png}" />
+        <img src="img/header_logo.png" th:src="@{/img/header_logo.png}" />
         <p>ホッと一息できるひとときを、あなたに！</p>
       </div>
     </footer>

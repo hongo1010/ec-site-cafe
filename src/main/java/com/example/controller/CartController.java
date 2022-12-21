@@ -63,7 +63,7 @@ public class CartController {
 
 		User user = (User) session.getAttribute("user");
 		Integer userId = 0;
-		Order order = null;
+		Order order =(Order) session.getAttribute("order") ;
 		Integer dummyId = null;
 		dummyId = (Integer) session.getAttribute("dummyId");
 
@@ -76,6 +76,7 @@ public class CartController {
 			order = service.showCart(userId);
 			session.setAttribute("order", order);
 		}
+
 		if (order == null) {
 			model.addAttribute("NoOrder", "カート内は空です。");
 		} else {

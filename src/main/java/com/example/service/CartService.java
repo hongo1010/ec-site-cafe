@@ -111,14 +111,17 @@ public class CartService {
 		orderItemRepository.delete(orderItemId);
 	}
 
-
+	/**
+	 * UserIDからオーダーを検索するメソッド.
+	 * @param userId
+	 * @return
+	 */
 	public Order searchOrder(Integer userId) {
 		Order order = orderRepository.findByUserIdAndStatus(userId);
 		return order;
 	}
 
 	public Order transferItemList(Order trueOrder, List<OrderItem> dummyOrderItemList) {
-
 
 		// trueOrderのOrderItemListにOrderItemを加えるのではなくて、
 		// dummyOrderItem(List)のorderIdをtrueOrderのOrderIdにして、更新する。
@@ -130,20 +133,34 @@ public class CartService {
 		return trueOrder;
 	}
 
+	/**
+	 * オーダーを更新するメソッド
+	 * @param transferdOrder　更新したいオーダー
+	 */
 	public void update(Order transferdOrder) {
 		orderRepository.update(transferdOrder);
 	}
 
-	public Integer findIdAtRecentOrder() {
-		return orderRepository.findRecentId();
-	}
-
-	public Integer findUserIdAtRecentOrder(Integer recentId) {
-		return orderRepository.findRecentUserId(recentId);
-	}
-
+	/**
+	 * オーダーIDからオーダーアイテムを検索するメソッド
+	 * @param orderId
+	 * @return
+	 */
 	public List<OrderItem> getOrderItemListByOrderId(Integer orderId) {
 		return orderItemRepository.getOrderItemListByOrderId(orderId);
+	}
+
+	/**
+	 * orderを作るメソッド.
+	 * 
+	 * @param userId ユーザーID
+	 */
+	public void insert(Integer userId) {
+		Order createOrder = new Order();
+		createOrder.setUserId(userId);
+		createOrder.setStatus(0);
+		createOrder.setTotalPrice(0);
+		orderRepository.insert(createOrder);
 	}
 
 }

@@ -52,7 +52,6 @@
 			</span>
 			<span th:if="${session.user}"> <a th:href="@{/logoutUser/logout}">ログアウト</a>
             </span>
-             <a th:href="@{/orderHistory/}">注文履歴</a>
 			<span th:if="${session.user}" th:text="${session.user.name} + 'さんこんにちは'">山田太郎</span>
           </div>
         </div>
